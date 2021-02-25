@@ -1,0 +1,71 @@
+from django.db import models
+
+class Author(models.Model):
+    user = models.OneToOneField(User)
+    user_rating = models.FloatField(default = 0.0)
+
+def update_rating(self):
+
+    posts_author = Post.objects.filter(author_post=self.id)
+    rating_author= sum([r.rating_article*3 for r in posts_author ])
+    print(rating_author)
+    rating_comment = sum([r.rating_comment for r in Comment.objects.filter(comment_user = self.author_user)])
+    print(rating_comment)
+
+    likes_author_comment_sum = sum([r.rating_comment for r in Comment.objects.filter(post_comment_in = posts_author)])
+    print(likes_author_comment_sum)
+    self.rating_user = rating_article + rating_comment + likes_author_comment_sum
+    print(self.rating_user)
+    self.save()
+
+class Category(models.Model):
+    title = models.CharField(_('title_of_category'), max_length=555, unique=True)
+
+class Post(models.Model):
+    author = models.ForeignKey(Author)
+    article= 'AR'
+    news_item = 'NI'
+
+    POSITIONS = [
+        (article, 'Статья'),
+        (news_item, 'Новость'),
+    ]
+
+    position = models.CharField(max_length=2,
+                                choices=POSITIONS,
+                                default=news_item)
+
+    Post_data = models.DateField(auto_now_add=True)
+    category= models.ForeignKey(Category)
+    postcategory = models.ForeignKey(PostCategory)
+
+    headline = models.CharField(max_length=255)
+    text = models.TextField()
+    title_rating = models.FloatField(default=0.1)
+
+def post_like(self):
+    self.like=like+1
+
+def post_dislike(self):
+    self.dislike=like-1
+
+def preview(self)
+    return self.text.split()[124]
+
+class PostCategory(models.Model):
+    past = models.ForeignKey(Past)
+    category = models.ForeignKey(Category)
+
+
+class Comment(models.Model):
+    past = models.ForeignKey(Past)
+    user = models.ForeignKey(User)
+    comment_text = models.TextField()
+    comment_data = models.DateField(auto_now_add=True)
+    comment_rating = models.FloatField(default=0.0)
+
+def comment_like(self):
+    self.like=like+1
+
+def comment_dislike(self):
+    self.dislike=like-1
